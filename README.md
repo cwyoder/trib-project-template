@@ -1,11 +1,11 @@
 # Dataviz dev template
 
-A template for creating dataviz projects for the Chicago Tribune.
+A template for creating dataviz projects for the Chicago Tribune. Version 0.1.
 
 ## Requirements
 
 * Node.js
-* grunt-cli (See http://gruntjs.com/getting-started#installing-the-cli)
+* gulp-cli (See https://gulpjs.com/docs/en/getting-started/quick-start/)
 
 ### Serving contents of public folder on localhost
 
@@ -23,19 +23,19 @@ to install the build dependencies for front-end assets.
 
 When you run:
 
-    grunt
+    gulp
     npm run build
 
-Grunt will compile `sass/styles.scss` into `public/css/styles.css` and bundle/minify `js/src/app.js` into `public/dist/app.min.js`.
+Grunt will compile `sass/styles.scss` into `public/build/styles.css` and bundle/minify `js/app.js` into `public/js/app.js`.
 
 If you want to recompile as you develop, run:
 
-    grunt && grunt watch
+    gulp && gulp watch
     npm run watch
 
-To add `app.min.js` to your template file, inside the public folder:
+To add `app.js` to your template file, inside the public folder:
 
-    <script src="dist/app.min.js"></script>
+    <script src="js/app.js"></script>
 
 ## How to use the public folder
 
@@ -57,3 +57,9 @@ This is the embed code that should be pasted into an HTML block inside Arc.
 <script>
     var pymParent = new pym.Parent('blurb-gfx', 'https://graphics.chicagotribune.com/SLUG/PATH', {});
 </script>`
+
+## Roadmap
+
+0.1: Gulp to compile SCSS and Browserify-ed Javascript.
+0.2: Local express development server and Nunjucks templating.
+0.3: Google sheet connected to Nunjucks templating
