@@ -13,7 +13,7 @@ TKTKTKTKTK
 
 ### Building front-end assets
 
-This template creates a configuration to use [Grunt](http://gruntjs.com/) to build front-end JS and CSS assets.
+This template creates a configuration to use [Gulp](https://gulpjs.com/) to build front-end JS and CSS assets.
 
 After forking the template, run:
 
@@ -26,7 +26,7 @@ When you run:
     gulp
     npm run build
 
-Grunt will compile `sass/styles.scss` into `public/build/styles.css` and bundle/minify `js/app.js` into `public/js/app.js`.
+Gulp will compile `sass/styles.scss` into `public/build/styles.css` and bundle/minify `js/app.js` into `public/js/app.js`.
 
 If you want to recompile as you develop, run:
 
