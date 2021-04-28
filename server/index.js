@@ -9,13 +9,25 @@ const app = express();
 app.use(morgan('dev')); //logging middleware
 app.use('/', express.static(path.join(__dirname, '..', 'public'))); //static path
 
-nunjucks.configure('views', {
+//configure nunjucks
+const _templates = process.env.NODE_PATH ? process.env.NODE_PATH + '/templates' : 'templates';
+nunjucks.configure(_templates, {
   autoescape: true,
   express: app
 })
 
-app.get('/', async (req, res, next) => {
-  res.render('index.njk', context);
+//set nunjucks as rendering engine for template pages with .html suffix
+app.engine('html', nunjucks.render);
+app.set('view engine', 'html')
+
+//respond to get requests by rendering relevant template page using Nunjucks
+app.get('/:page', async (req, res, next) => {
+  res.render(req.params.page, context);
+})
+
+//no req params gives you index from templates
+app.get('/', async(req, res, next) => {
+  res.render('index.html', context);
 })
 
 //404 handler

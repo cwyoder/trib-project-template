@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp",
     "watch": "gulp && gulp watch",
-    "start:dev": "nodemon server --ignore /js --ignore /public --ignore /sass"
+    "start:dev": "nodemon server --ignore /js --ignore /public --ignore /sass",
+    "publish": "gulp render"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-cssnano": "^2.1.3",
+    "gulp-nunjucks-render": "^2.2.3",
     "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",

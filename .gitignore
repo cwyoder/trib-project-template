@@ -1,8 +1,9 @@
-# Ignore build dependencies 
+# Ignore build dependencies
 node_modules
 # Ignore artifacts from the build process
 .sass-cache
 # You probably want to ignore files created by the front-end build
 # process.  Uncomment these lines to do so:
 public/build
+public/*.html
 .DS_Store

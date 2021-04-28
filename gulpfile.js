@@ -12,6 +12,10 @@ const sourcemaps = require('gulp-sourcemaps');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 
+const nunjucksRender = require('gulp-nunjucks-render');
+const context = require('./server/context');
+
+
 gulp.task('sass', function(){
 	log.info('Compiling scss ...');
 	return gulp.src('sass/styles.scss')
@@ -47,4 +51,13 @@ gulp.task('watch', function(){
 	log.info('Gulp is watching scss and js');
 	gulp.watch('./sass/*.scss', gulp.series('sass'));
 	gulp.watch('./js/*.js', gulp.series('js'));
-})
+});
+
+gulp.task('render', function(){
+	return gulp.src('templates/*.html')
+		.pipe(nunjucksRender({
+			path: ['templates/'],
+			data: context
+		}))
+		.pipe(gulp.dest('public'));
+});
