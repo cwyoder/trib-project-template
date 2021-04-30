@@ -4,6 +4,6 @@ node_modules
 .sass-cache
 # You probably want to ignore files created by the front-end build
 # process.  Uncomment these lines to do so:
-public/build
+public/**/
 public/*.html
 .DS_Store
