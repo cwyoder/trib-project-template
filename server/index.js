@@ -3,6 +3,10 @@ const path = require('path');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
 const context = require('./context');
+const fs = require('fs');
+const {google} = require('googleapis');
+const {authorize, getNewToken} = require('./sheet');
+const {spreadsheetKey} = require('../project-config');
 
 const app = express();
 
@@ -22,12 +26,74 @@ app.set('view engine', 'html')
 
 //respond to get requests by rendering relevant template page using Nunjucks
 app.get('/:page', async (req, res, next) => {
-  res.render(req.params.page, context);
-})
+
+  // Auth
+  fs.readFile(path.resolve(__dirname, '../../../.tarbell/client_secrets.json'), (err, content) => {
+    if (err) return console.log('Error loading client secret file:', err);
+    // Authorize a client with credentials, then call the Google Sheets API.
+    authorize(JSON.parse(content), scrapeSheet);
+  });
+
+  //scrape sheets and res.render with results
+  function scrapeSheet(auth) {
+    const sheets = google.sheets({version: 'v4', auth});
+    sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetKey,
+      range: 'values',
+    }, (err, response) => {
+      if (err) return console.log('The API returned an error: ' + err);
+      const rows = response.data.values;
+      //add values to obj
+      const obj = {};
+      if (rows.length) {
+        if (rows[0][0] === 'key') {
+          rows.slice(1).forEach(row => {
+            obj[row[0]] = row[1]
+          });
+        }
+        res.render(req.params.page, obj);
+      } else {
+        console.log('No data found.');
+      }
+    });
+  }
+
+});
 
 //no req params gives you index from templates
 app.get('/', async(req, res, next) => {
-  res.render('index.html', context);
+
+  // Auth
+  fs.readFile(path.resolve(__dirname, '../../../.tarbell/client_secrets.json'), (err, content) => {
+    if (err) return console.log('Error loading client secret file:', err);
+    // Authorize a client with credentials, then call the Google Sheets API.
+    authorize(JSON.parse(content), scrapeSheet);
+  });
+
+  //scrape sheets and res.render with results
+  function scrapeSheet(auth) {
+    const sheets = google.sheets({version: 'v4', auth});
+    sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetKey,
+      range: 'values',
+    }, (err, response) => {
+      if (err) return console.log('The API returned an error: ' + err);
+      const rows = response.data.values;
+      //add values to obj
+      const obj = {};
+      if (rows.length) {
+        if (rows[0][0] === 'key') {
+          rows.slice(1).forEach(row => {
+            obj[row[0]] = row[1]
+          });
+        }
+        res.render('index.html', obj);
+      } else {
+        console.log('No data found.');
+        res.render('index.html', context);
+      }
+    });
+  }
 })
 
 //404 handler
